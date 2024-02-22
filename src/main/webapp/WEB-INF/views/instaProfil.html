@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #fff;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        .profile-stats div {
+            flex: 1;
+        }
+
+        .profile-stats strong {
+            display: block;
+            font-size: 1.5em;
+        }
+
+        .edit-profile-link,
+        .update-profile-link,
+        .delete-profile-link {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        .edit-profile-link:hover,
+        .update-profile-link:hover,
+        .delete-profile-link:hover {
+            text-decoration: underline;
+        }
+
+        .post-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+
+        }
+
+        .card {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<div class="logo">
+    <!-- Replace the text with your logo image -->
+
+    <ul class="navigation-links">
+        <li><a th:href="@{/userInfo/home}" href="#"><img src="https://img.icons8.com/?size=50&id=2797&format=png" alt="Home" style="height: 40px;"><br>Home</a></li>
+        <li><a href="#"><img src="https://image.shutterstock.com/image-vector/search-icon-vector-illustration-on-260nw-416112421.jpg" alt="Search" style="height: 40px;"><br>Search</a></li>
+        <li><a href="#"><img src="https://image.shutterstock.com/image-vector/black-hashtag-icon-260nw-345446816.jpg" alt="Interesting" style="height: 40px;"><br>Interesting</a></li>
+        <li><a href="#"><img src="https://img.icons8.com/?size=50&id=PxI9IPCyBAOD&format=png" alt="Reels" style="height: 40px;"><br>Reels</a></li>
+        <li><a href="#"><img src="https://img.icons8.com/?size=50&id=37966&format=png" alt="Message" style="height: 40px;"><br>Message</a></li>
+        <li><a href="#"><img src="https://image.shutterstock.com/image-vector/notification-icon-vector-material-design-260nw-759841507.jpg" alt="Notifications" style="height: 40px;"><br>Notifications</a></li>
+        <li><a href="#">Profile</a></li>
+    </ul>
+</div>
+<body>
+<div class="profile-container">
+    <img class="profile-image" th:src="${userInfo.getImage()}" alt="Profile Image">
+    <h2 th:text="${user.user_name}"></h2>
+
+    <p th:text="${userInfo.getFullName()}"></p>
+    <p th:text="${userInfo.getBiography()}"></p>
+    <p th:text="${userInfo.getGender()}"></p>
+    <p>
+        <a class="update-profile-link" th:href="@{/userInfo/update/{userInfoId}(userInfoId=${userInfo.getId()})}">Update profile</a>
+
+<!--        <a class="delete-profile-link" th:href="@{/userInfo/delete/{userInfo}(userInfo=${userInfoId})}">Delete profile</a>-->
+    </p>
+
+    <div class="profile-stats">
+        <div>
+            <strong>Posts</strong><br>
+            <span>1,000</span>
+        </div>
+
+        <div>
+            <strong>Subscribers</strong><br>
+            <span>1,000</span>
+        </div>
+
+        <div>
+            <strong>Subscriptions</strong><br>
+            <span>100</span>
+        </div>
+    </div>
+
+    <p>
+<!--        <a class="edit-profile-link" th:href="@{/userInfo/update/{userID}(userID=${userInfo.id})}">Update profile</a>-->
+    </p>
+    <p>
+        <a class="edit-profile-link" th:href="@{/post/newPost/{userID}(userID=${userId})}">Create Post</a>
+    </p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+<body>
+<div class="post-container">
+    <!-- Код для отображения постов -->
+    <!-- Используйте Thymeleaf для динамического отображения данных постов -->
+    <!-- Пример ниже - это базовая карточка поста, вы можете настроить ее под свои нужды -->
+
+    <div class="card" th:each="post : ${postInfo}">
+        <div class="card" th:each="comments: ${commentInfo}">
+        <div th:each="imag :${post.getImages()}">
+            <img th:src="${imag.getImageURL()}" class="card-img-top" alt="Post Image">
+<!--            <img th:src="${post.getImages()}" class="card-img-top" alt="Post Image">-->
+
+            <div class="card-body">
+                <h5 class="card-title" th:text="${post.getDescription()}">Post Title</h5>
+                <p class="card-text" th:text="${post.getTitle()}">Post Description</p>
+                <p class="card-text" th:text="${post.getCreatedAt()}">Post Date</p>
+
+                <a th:href="@{/post/{postId}/update(postId=${post.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/post/delete/{postID}(postID=${postID})}" class="btn btn-danger">Delete</a>
+                <a class="nav-link" th:href="@{/comments/newCreateComments/{userId}/{postId}(userId=${userId},postId=${post.id})}" > Comment </a>
+
+
+                <p class="card-text" th:text="${commentInfo.getUsers()}">Comments User</p>
+                <p class="card-text" th:text="${commentInfo.getComment()}">Comment</p>
+                <p class="card-text" th:text="${commentInfo.getCreatedAt()}">Data</p>
+            </div>
+                <!-- <a th:href="@{/post/delete/{userID}/{postID}(userID=${userID})(postID=${postID})}" class="btn btn-danger">Delete</a>-->
+            </div>
+        </div>
+    </div>
+    <!--        <a th:method="get" class="btn btn-primary" th:href="@{/post/new/{userId}(userId=${userId})}" role="button">Create New Post</a>-->
+
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Instagram Profile</title>-->
+
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            background-color: #fafafa;-->
+<!--        }-->
+
+<!--        .profile-container {-->
+<!--            max-width: 600px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 20px;-->
+<!--            text-align: center;-->
+<!--            background-color: #fff;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            margin-top: 20px;-->
+<!--            border-radius: 10px;-->
+<!--        }-->
+
+<!--        .profile-image {-->
+<!--            width: 150px;-->
+<!--            height: 150px;-->
+<!--            border-radius: 50%;-->
+<!--            object-fit: cover;-->
+<!--            margin-bottom: 15px;-->
+<!--            border: 3px solid #fff;-->
+<!--        }-->
+
+<!--        .profile-stats {-->
+<!--            display: flex;-->
+<!--            justify-content: space-around;-->
+<!--            margin-top: 15px;-->
+<!--            font-size: 1.2em;-->
+<!--        }-->
+
+<!--        .profile-stats div {-->
+<!--            flex: 1;-->
+<!--        }-->
+
+<!--        .profile-stats strong {-->
+<!--            display: block;-->
+<!--            font-size: 1.5em;-->
+<!--        }-->
+
+<!--        .edit-profile-link,-->
+<!--        .update-profile-link,-->
+<!--        .delete-profile-link {-->
+<!--            text-decoration: none;-->
+<!--            color: #007bff;-->
+<!--            margin-right: 10px;-->
+<!--        }-->
+
+<!--        .edit-profile-link:hover,-->
+<!--        .update-profile-link:hover,-->
+<!--        .delete-profile-link:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="profile-container">-->
+<!--    <img class="profile-image" th:src="${userInfo.getImage()}" alt="Profile Image">-->
+<!--    <h2 th:text="${user.user_name}"></h2>-->
+
+<!--    <p th:text="${userInfo.getFullName()}"></p>-->
+<!--    <p th:text="${userInfo.getBiography()}"></p>-->
+<!--    <p th:text="${userInfo.getGender()}"></p>-->
+<!--    <p>-->
+<!--        <a class="update-profile-link" th:href="@{/userInfo/update/{userId}(userId=${userId})}">Update profile</a>-->
+<!--        <a class="delete-profile-link" th:href="@{/userInfo/delete/{userInfo}(userInfo=${userInfoId})}">Delete profile</a>-->
+<!--    </p>-->
+
+<!--    <div class="profile-stats">-->
+<!--        <div>-->
+<!--            <strong>Posts</strong><br>-->
+<!--            <span>1,000</span>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <strong>Subscribers</strong><br>-->
+<!--            <span>1,000</span>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <strong>Subscriptions</strong><br>-->
+<!--            <span>100</span>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <p>-->
+<!--        <a class="edit-profile-link" th:href="@{/userInfo/newCreateUserInfo/{userId}(userId=${userId})}">Edit profile</a>-->
+<!--    </p>-->
+<!--    <p>-->
+<!--        <a class="edit-profile-link" th:href="@{/post/newPost/{userID}(userID=${userId})}">Edit Post</a>-->
+<!--    </p>-->
+<!--</div>-->
+
+<!--<div class="card" style="width: 18rem;"-->
+<!--     th:each="post:${postInfo}">-->
+<!--    <img th:src="${post.getImages()}" class="card-img-top" alt="Course image">-->
+<!--    <div class="card-body">-->
+<!--        <h5 class="card-title" th:text="${post.getDescription()}">Course name</h5>-->
+<!--        <p class="card-text" th:text="${post.getComment()}">Course description</p>-->
+<!--        <p class="card-text" th:text="${post.getCreatedAt()}">Course price</p>-->
+<!--&lt;!&ndash;        <p class="card-text" th:text="${post.getTitle()}">Course price</p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p class="card-text" th:text="${post.getLikes()}">Course price</p>&ndash;&gt;-->
+
+<!--        <a  th:href="@{/courses/{courseId}/update(couseId=${course.id})}" class="btn btn-primary">Update</a>-->
+<!--        <a th:href="@{/courses/delete/{courseId}(courseId=${course.id})}" class="btn btn-danger">Delete</a>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<a  th:method="get" class="btn btn-primary" th:href="@{/courses/new/{companyId}(companyId=${companyID})}" role="button"> Save Course </a>-->
+
+<!--</body>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>-->
+<!--</html>-->
+
+
+
