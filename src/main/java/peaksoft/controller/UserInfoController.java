@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import peaksoft.entity.Comment;
 import peaksoft.entity.User;
 import peaksoft.entity.UserInfo;
-import peaksoft.service.CommentService;
-import peaksoft.service.PostService;
-import peaksoft.service.UserInfoService;
-import peaksoft.service.UserService;
+import peaksoft.service.*;
 
 @Controller
 @RequestMapping("/userInfo")
@@ -22,24 +19,23 @@ public class UserInfoController {
     private final PostService postService;
     private final UserService userService;
     private  final CommentService commentService;
+    private final FollowerService followerService;
 
     ////*****************************  home  *********************************************////
     @GetMapping("/home")
-    public String ribbon(@ModelAttribute Model model,Long postID){
-        System.out.println("comment  hom 1 ");
+    public String ribbon(@ModelAttribute Model model,Long postID,Long userId){
+        Comment comment = new Comment();
         model.addAttribute("allPost",postService.getAll());
-        System.out.println("comment  hom 2 ");
-        model.addAttribute("comments");
-        System.out.println("comment  hom 3 ");
+        model.addAttribute("comments",comment);
         model.addAttribute("postID",postService.findPostById(postID));
-//        userID
+        model.addAttribute("userId",userId);
         return "home-page";
     }
 
     ////***************************** instaProfile  *********************************************////
 
     @GetMapping("/newInstaProfile/{userId}")
-    public String instaProfile(@PathVariable("userId") Long userId,Long commentID,Model model) throws Exception {
+    public String instaProfile(@PathVariable Long userId,Model model) throws Exception {
         User user = userService.findByUserId(userId);
         Comment comment = new Comment();
         model.addAttribute("userId", userId);
@@ -47,7 +43,11 @@ public class UserInfoController {
         model.addAttribute("userInfo",userInfoService.findUserInfoByUserID(userId));
         model.addAttribute("postInfo", user.getPosts());
         model.addAttribute("commentInfo",comment);
-        return "/instaProfil";
+
+        model.addAttribute("subcribers", followerService.Subscribers(user.getFollower().getId()));
+        model.addAttribute("subcribtions", followerService.Subscriptions(user.getFollower().getId()));
+        model.addAttribute("post",postService.getAllPostByUserId(user.getId()).size());
+        return "instaProfil";
     }
  ////***************************** update Info *********************************************////
 

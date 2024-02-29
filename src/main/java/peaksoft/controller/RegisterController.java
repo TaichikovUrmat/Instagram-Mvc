@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import peaksoft.entity.Comment;
 import peaksoft.entity.User;
 import peaksoft.service.PostService;
 import peaksoft.service.UserService;
@@ -29,8 +30,10 @@ public class RegisterController {
     @PostMapping("/login")
     public String Login(@ModelAttribute("newUser") User user, Model model) throws Exception {
         User currentUser = userService.login(user);
+//        Comment comment = new Comment();
         model.addAttribute("userId", currentUser.getId());
         model.addAttribute("allPost",postService.getAll());
+//        model.addAttribute("commentInfo",comment );
         return "/home-page";
     }
     // redirect:

@@ -31,10 +31,10 @@ public class User {
     private String email;
     private  int phone_number;
 
-//
-//    //************   Follower  *******************//
-//    @OneToOne
-//    private  Follower follower;
+
+    //************   Follower  *******************//
+    @OneToOne(cascade = {CascadeType.PERSIST,REMOVE})
+    private  Follower follower;
 
     //************* UserInfo ******************//
     @OneToOne(cascade = {PERSIST,REMOVE,REFRESH},fetch = FetchType.EAGER)

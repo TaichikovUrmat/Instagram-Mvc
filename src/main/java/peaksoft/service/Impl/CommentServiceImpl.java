@@ -16,7 +16,6 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepo commentRepo;
     @Override
     public String saveComment(Long userId, Long postId, Comment comment) {
-
          commentRepo.saveComment(userId,postId, comment);
          return "commented !!";
     }

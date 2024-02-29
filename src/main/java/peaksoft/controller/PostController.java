@@ -33,6 +33,7 @@ private final UserService userService;
                            @PathVariable("userID") Long userId,
                            Model model) throws Exception {
         User user = userService.findByUserId(userId);
+
         model.addAttribute("postInfo", user.getPosts());
         postService.savePostByUser(userId,post);
         return "/postImege";
@@ -40,11 +41,12 @@ private final UserService userService;
     }
 
     @GetMapping("/delete/{postID}")
-    public String deletePost(@PathVariable("postID") Long postID)throws Exception {
-//        Long userID = postService.findPostById(postID).getUser().getId();
-        Post postById = postService.findPostById(postID);
+    public String deletePost(@PathVariable("postID") Long postID
+                            )throws Exception {
+        Long userID = postService.findPostById(postID).getUser().getId();
+//        Post postById = postService.findPostById(postID);
         postService.delete(postID);
-      return "/instaProfil" +postById;
+      return "/instaProfil" +userID;
     }
 
 }

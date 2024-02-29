@@ -17,13 +17,13 @@ public class CommentController {
     @GetMapping("/newCreateComments/{userID}/{postId}")
   public String createComment(@PathVariable("userID") Long userID, Model model,
                               @PathVariable Long postId){
-        System.out.println("comment 1");
+//        System.out.println("comment 1");
         model.addAttribute("newComment" , new Comment());
-        System.out.println("comment 2");
+//        System.out.println("comment 2");
         model.addAttribute("userID", userID);
-        System.out.println(" comment 3");
+//        System.out.println(" comment 3");
         model.addAttribute("postID", postId);
-        System.out.println("comment 4");
+//        System.out.println("comment 4");
         return "createComment";
 
     }
@@ -32,9 +32,9 @@ public class CommentController {
     public String saveComment(@ModelAttribute("newComment") Comment comment,
                               @PathVariable("userID") Long userID,
                               @PathVariable("postID") Long postID){
-        System.out.println("comment 5 ");
+//        System.out.println("comment 5 ");
         commentService.saveComment(userID,postID,comment);
-        System.out.println("comment 6 ");
+//        System.out.println("comment 6 ");
         return "/createComment";
     }
 }

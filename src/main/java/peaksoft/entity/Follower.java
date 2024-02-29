@@ -29,7 +29,7 @@ public class Follower {
     @ElementCollection
     private List<Long>  subscriptions;   // Подписки
 
-    @OneToOne
+    @OneToOne(mappedBy = "follower",cascade = CascadeType.PERSIST)
     private User user;
 
 

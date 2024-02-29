@@ -25,7 +25,9 @@ public class UserRepoImpl implements UserPepo {
         UserInfo userInfo = new UserInfo();
         Image image = new Image();
         List<Comment> comments = new ArrayList<>();
+        Follower follower = new Follower();
 
+        user.setFollower(follower);
         user.setComments(comments);
         user.setImage(image);
         user.setUserInfo(userInfo);
@@ -37,8 +39,8 @@ public class UserRepoImpl implements UserPepo {
     @Override
     public User login(User user) throws Exception {
         User currentUser = entityManager.createQuery("select u from User u where u.user_name = :username and u.password = :password", User.class)
-                .setParameter("username", user.getUser_name())
-                .setParameter("password", user.getPassword())
+                .setParameter("username",user.getUser_name())
+                .setParameter("password",user.getPassword())
                 .getSingleResult();
         if (currentUser != null){
             return currentUser;
@@ -59,7 +61,12 @@ public class UserRepoImpl implements UserPepo {
         }
 
     }
-
+    @Override
+    public User findUserByName(String name) {
+        return  entityManager.createQuery("select u from User u where  user_name = :name",User.class)
+                .setParameter("name",name)
+                .getSingleResult();
+    }
 
 
 }
