@@ -28,5 +28,10 @@ public class UserServiceImpl implements UserService {
         return userPepo.findByUserId(userId);
     }
 
+    @Override
+    public User findUserByName(String name) {
+        return userPepo.findUserByName(name);
+    }
+
 
 }

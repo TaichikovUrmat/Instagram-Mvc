@@ -18,12 +18,13 @@ public class PostServiceImpl implements PostService {
     private final PostRepo postRepo;
     @Override
     public String savePostByUser(Long userId, Post post) {
+        Image image = new Image();
 
         String imageUrl = post.getImageUrl();
-        Image image = new Image();
         image.setImageURL(imageUrl);
         image.setPost(post);
         post.addImage(image);
+
        return postRepo.savePostByUser(userId, post);
     }
 
@@ -40,5 +41,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Long postId) {
         postRepo.delete(postId);
+    }
+
+    @Override
+    public List<Post> getAllPostByUserId(Long id) {
+        return postRepo.getAllPostByUserId(id);
     }
 }

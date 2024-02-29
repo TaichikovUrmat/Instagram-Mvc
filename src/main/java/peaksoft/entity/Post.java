@@ -57,6 +57,11 @@ public class Post {
         if (images == null)images = new ArrayList<>();
         images.add(image);
     }
+
+
+
+
+
     public void addComment(Comment comment) {
         if (this.comment == null) this.comment = new ArrayList<>();
         this.comment.add(comment);

@@ -42,9 +42,12 @@ public class PostRepoImpl implements PostRepo {
 //                .setParameter("postId",postId)
 //                .getSingleResult();
 
+    }
 
-
-
+    @Override
+    public List<Post> getAllPostByUserId(Long id) {
+        return entityManager.createQuery("select p from Post p where user.id = :id", Post.class)
+                .setParameter("id", id).getResultList();
     }
 
 
